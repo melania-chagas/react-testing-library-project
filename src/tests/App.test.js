@@ -60,4 +60,12 @@ describe('Testa a navegação entre as páginas',
 
       expect(pathname).toBe('/favorites');
     });
+
+    test(`Verifica se a aplicação é redirecionada para a página 'Not Found'
+    ao entrar em uma URL desconhecida.`,
+    () => {
+      const { history } = renderWithRouter(<App />);
+      history.push('/páginaNãoExistente');
+      expect(screen.getByText(/Page requested not found/i)).toBeInTheDocument();
+    });
   });
