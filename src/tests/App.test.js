@@ -39,4 +39,14 @@ describe('Testa a navegação entre as páginas',
 
         expect(pathname).toBe('/');
       });
+
+    test('Ao clicar no link \'About\' a aplicação é redirecionada para a url \'/about\' ',
+      () => {
+        const { history } = renderWithRouter(<App />);
+        const linkAbout = screen.getByRole('link', { name: /about/i });
+        userEvent.click(linkAbout);
+        const { location: { pathname } } = history;
+
+        expect(pathname).toBe('/about');
+      });
   });
