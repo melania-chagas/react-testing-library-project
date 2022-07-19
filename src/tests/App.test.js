@@ -1,5 +1,6 @@
 import React from 'react';
 import { screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from '../App';
 import renderWithRouter from './renderWithRouter';
 
@@ -25,4 +26,17 @@ describe('Verifica se o topo da aplicaçao contém um conjunto fixo de links de 
       const linkFavPokémons = screen.getByRole('link', { name: /Favorite Pokémons/i });
       expect(linkFavPokémons).toBeDefined();
     });
+  });
+
+describe('Testa a navegação entre as páginas',
+  () => {
+    test('Ao clicar no link \'Home\' a aplicação é redirecionada para a url \'/\' ',
+      () => {
+        const { history } = renderWithRouter(<App />);
+        const linkHome = screen.getByRole('link', { name: /Home/i });
+        userEvent.click(linkHome);
+        const { location: { pathname } } = history;
+
+        expect(pathname).toBe('/');
+      });
   });
