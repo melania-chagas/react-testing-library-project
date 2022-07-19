@@ -49,4 +49,15 @@ describe('Testa a navegação entre as páginas',
 
         expect(pathname).toBe('/about');
       });
+
+    test(`Ao clicar no link 'Favorite Pokémons' a aplicação é redirecionada para a url
+      '/favorites' `,
+    () => {
+      const { history } = renderWithRouter(<App />);
+      const linkFavorites = screen.getByRole('link', { name: /Favorite Pokémons/i });
+      userEvent.click(linkFavorites);
+      const { location: { pathname } } = history;
+
+      expect(pathname).toBe('/favorites');
+    });
   });
