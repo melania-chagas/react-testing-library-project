@@ -1,16 +1,11 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-
-import App from '../App';
-import renderWithRouter from './renderWithRouter';
+import { render, screen } from '@testing-library/react';
+import { About } from '../pages';
 
 describe('Testes acerca da página \'About\'',
   () => {
     test('Teste se a página contém um heading h2 com o texto \'About Pokédex\'', () => {
-      renderWithRouter(<App />);
-      const linkAbout = screen.getByRole('link', { name: /about/i });
-      userEvent.click(linkAbout);
+      render(<About />);
       const heading2 = screen.getByRole('heading', { name: /About Pokédex/i });
 
       expect(heading2).toHaveTextContent(/About Pokédex/i);
@@ -18,9 +13,7 @@ describe('Testes acerca da página \'About\'',
 
     test('Teste se a página contém dois parágrafos com texto sobre a Pokédex',
       () => {
-        renderWithRouter(<App />);
-        const linkAbout = screen.getByRole('link', { name: /about/i });
-        userEvent.click(linkAbout);
+        render(<About />);
 
         expect(screen.getByText(
           /This application simulates a Pokédex/i,
@@ -33,12 +26,9 @@ describe('Testes acerca da página \'About\'',
 
     test('Testa se existe uma imagem específica',
       () => {
-        renderWithRouter(<App />);
-        const linkAbout = screen.getByRole('link', { name: /about/i });
-        userEvent.click(linkAbout);
-
-        expect(screen.getByAltText(
-          /Pokédex/i,
-        )).toBeInTheDocument();
+        render(<About />);
+        const img = screen.getByRole('img', { name: /Pokédex/i });
+        const urlImg = 'https://cdn2.bulbagarden.net/upload/thumb/8/86/Gen_I_Pok%C3%A9dex.png/800px-Gen_I_Pok%C3%A9dex.png';
+        expect(img).toHaveAttribute('src', urlImg);
       });
   });
