@@ -30,4 +30,15 @@ describe('Testes acerca da página \'About\'',
           /One can filter Pokémons by type,/i,
         )).toBeInTheDocument();
       });
+
+    test('Testa se existe uma imagem específica',
+      () => {
+        renderWithRouter(<App />);
+        const linkAbout = screen.getByRole('link', { name: /about/i });
+        userEvent.click(linkAbout);
+
+        expect(screen.getByAltText(
+          /Pokédex/i,
+        )).toBeInTheDocument();
+      });
   });
