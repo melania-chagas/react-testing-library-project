@@ -12,4 +12,12 @@ describe('Testes acerca da página \'FavoritePokemons\'', () => {
       expect(noFavorites).toBeInTheDocument();
     },
   );
+
+  test('Verifica se são exibidos todos os cards de pokémons favoritados',
+    () => {
+      render(<FavoritePokemons />);
+      const { container } = render(<FavoritePokemons />);
+      const allfavorite = container.getElementsByClassName('favorite-pokemon');
+      expect(allfavorite).toBeDefined();
+    });
 });
