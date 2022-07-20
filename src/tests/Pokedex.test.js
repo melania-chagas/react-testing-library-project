@@ -70,22 +70,5 @@ describe('Testes acerca da página \'Pokedex\'', () => {
           });
         },
       );
-      test(
-        'O texto do botão deve corresponder ao nome do tipo, ex. Psychic',
-        () => {
-          renderWithRouter(<App />);
-          const types = [
-            'Electric', 'Fire', 'Bug', 'Poison', 'Psychic', 'Normal', 'Dragon',
-          ];
-          const nextPokemon = screen.getByRole('button', { name: 'Próximo pokémon' });
-          types.forEach((type) => {
-            const button = screen.getByRole('button', { name: type });
-            userEvent.click(button);
-            expect(screen.getByTestId('pokemon-type')).toHaveTextContent(type);
-            userEvent.click(nextPokemon);
-            expect(screen.getByTestId('pokemon-type')).toHaveTextContent(type);
-          });
-        },
-      );
     });
 });
