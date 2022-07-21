@@ -72,7 +72,7 @@ describe('Testes acerca da página \'Pokedex\'', () => {
       );
 
       describe('Verifica se a Pokédex contém um botão para resetar o filtro', () => {
-        test('O texto do botão deve ser All',
+        test('O texto do botão deve ser "All"',
           () => {
             renderWithRouter(<App />);
             const buttonAll = screen.getByRole('button', { name: /All/i });
@@ -118,7 +118,6 @@ describe('Testes acerca da página \'Pokedex\'', () => {
         'Dragon',
       ];
       types.forEach((type, index) => {
-        // console.log('types', type, 'testID', allByTestId[index].innerHTML);
         expect(allByTestId[index].innerHTML).toBe(type);
       });
     });
