@@ -70,5 +70,56 @@ describe('Testes acerca da página \'Pokedex\'', () => {
           });
         },
       );
+
+      describe('Verifica se a Pokédex contém um botão para resetar o filtro', () => {
+        test('O texto do botão deve ser All',
+          () => {
+            renderWithRouter(<App />);
+            const buttonAll = screen.getByRole('button', { name: /All/i });
+            expect(buttonAll).toHaveTextContent(/All/i);
+          });
+
+        test(`A Pokedéx deverá mostrar os pokémons normalmente (sem filtros)
+          quando o botão All for clicado`,
+        () => {
+          renderWithRouter(<App />);
+          const buttonAll = screen.getByRole('button', { name: /All/i });
+          userEvent.click(buttonAll);
+          const allPokemons = [
+            'Pikachu',
+            'Charmander',
+            'Caterpie',
+            'Ekans',
+            'Alakazam',
+            'Mew',
+            'Rapidash',
+            'Snorlax',
+            'Dragonair',
+          ];
+          allPokemons.forEach((pokemon) => {
+            const nextPokemon = screen.getByRole('button', { name: 'Próximo pokémon' });
+            userEvent.click(nextPokemon);
+            expect(pokemon).toBeDefined();
+          });
+        });
+      });
+    });
+  test('Testando o pokemon-type-button',
+    () => {
+      renderWithRouter(<App />);
+      const allByTestId = screen.getAllByTestId('pokemon-type-button');
+      const types = [
+        'Electric',
+        'Fire',
+        'Bug',
+        'Poison',
+        'Psychic',
+        'Normal',
+        'Dragon',
+      ];
+      types.forEach((type, index) => {
+        // console.log('types', type, 'testID', allByTestId[index].innerHTML);
+        expect(allByTestId[index].innerHTML).toBe(type);
+      });
     });
 });
