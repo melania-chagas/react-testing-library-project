@@ -5,6 +5,7 @@ import renderWithRouter from './renderWithRouter';
 import data from '../data';
 import App from '../App';
 
+const pokemon = data[0];
 const moreDetails = 'More details';
 
 describe(`Teste se é renderizado um card com as informações de
@@ -12,7 +13,6 @@ describe(`Teste se é renderizado um card com as informações de
   test('O nome correto do pokémon deve ser mostrado na tela',
     () => {
       renderWithRouter(<App />);
-      const pokemon = data[0];
       const { name } = pokemon;
 
       expect(name).toBeDefined();
@@ -21,7 +21,6 @@ describe(`Teste se é renderizado um card com as informações de
   test('O tipo correto do pokémon deve ser mostrado na tela',
     () => {
       renderWithRouter(<App />);
-      const pokemon = data[0];
       const { type } = pokemon;
       const typePokemon = screen.getByTestId('pokemon-type');
 
@@ -35,11 +34,9 @@ describe(`Teste se é renderizado um card com as informações de
           sua unidade de medida`,
     () => {
       renderWithRouter(<App />);
-      const pokemon = data[0];
-      const { value } = pokemon.averageWeight;
-      const { measurementUnit } = pokemon.averageWeight;
-
+      const { value, measurementUnit } = pokemon.averageWeight;
       const weight = screen.getByTestId('pokemon-weight');
+
       expect(weight).toHaveTextContent(
         `Average weight: ${value} ${measurementUnit}`,
       );
@@ -51,14 +48,11 @@ describe(`Teste se é renderizado um card com as informações de
     onde <name> é o nome do pokémon`,
   () => {
     renderWithRouter(<App />);
-    const pokemon = data[0];
-    const pokemonImage = pokemon.image;
-    const pokemonName = pokemon.name;
+    const { name, image } = pokemon;
+    const altImg = screen.getByAltText(`${name} sprite`);
 
-    const altImg = screen.getByAltText(`${pokemonName} sprite`);
     expect(altImg).toBeDefined();
-    const src = pokemonImage;
-    expect(altImg).toHaveAttribute('src', src);
+    expect(altImg).toHaveAttribute('src', image);
   });
 
   test(`Teste se o card do pokémon indicado na Pokédex contém um link de navegação
@@ -66,32 +60,32 @@ describe(`Teste se é renderizado um card com as informações de
     onde <id> é o id do pokémon exibido`,
   () => {
     renderWithRouter(<App />);
-    const pokemon = data[0];
+    const { id } = pokemon;
     const link = screen.getByRole('link', { name: moreDetails });
-    expect(link).toHaveAttribute('href', `/pokemons/${pokemon.id}`);
+    expect(link).toHaveAttribute('href', `/pokemons/${id}`);
   });
 
   test(`Teste se ao clicar no link de navegação do pokémon, é feito o redirecionamento
     da aplicação para a página de detalhes de pokémon`,
   () => {
     const { history } = renderWithRouter(<App />);
-    const pokemon = data[0];
-    const link = screen.getByRole('link', { name: moreDetails });
-    userEvent.click(link);
+    const { id } = pokemon;
+    const details = screen.getByRole('link', { name: moreDetails });
+    userEvent.click(details);
     const { pathname } = history.location;
-    expect(pathname).toBe(`/pokemons/${pokemon.id}`);
+    expect(pathname).toBe(`/pokemons/${id}`);
   });
 
   test(`Teste se existe um ícone de estrela nos pokémons favoritados:
   O ícone deve ser uma imagem com o atributo src contendo o caminho /star-icon.svg`,
   () => {
     renderWithRouter(<App />);
-    const pokemon = data[0];
-    const link = screen.getByRole('link', { name: moreDetails });
-    userEvent.click(link);
+    const { name } = pokemon;
+    const details = screen.getByRole('link', { name: moreDetails });
+    userEvent.click(details);
     const favorite = screen.getByLabelText('Pokémon favoritado?');
     userEvent.click(favorite);
-    const pokemonImg = screen.getByAltText(`${pokemon.name} is marked as favorite`);
+    const pokemonImg = screen.getByAltText(`${name} is marked as favorite`);
     expect(pokemonImg).toBeDefined();
     expect(pokemonImg).toHaveAttribute('src', '/star-icon.svg');
   });
